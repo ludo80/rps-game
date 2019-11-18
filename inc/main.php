@@ -18,9 +18,9 @@
                 <span class="score" id="player2-score">0</span>
             </h4>
             <div id="player-choice">
-                <div class="choice-button" id="0"><img src="images/rock.png"></div>
-                <div class="choice-button" id="1"><img src="images/paper.png"></div>
-                <div class="choice-button" id="2"><img src="images/scissors.png"></div>
+                <div class="choice-button" id="1"><img src="images/rock.png"></div>
+                <div class="choice-button" id="2"><img src="images/paper.png"></div>
+                <div class="choice-button" id="3"><img src="images/scissors.png"></div>
             </div>
             <div class="container">
                 <div id="cpu-battle">Let them play !</div>

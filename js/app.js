@@ -49,37 +49,37 @@ var app = {
       app.choice[i].classList.remove('selected');
     };
     evt.currentTarget.classList.add("selected");
-    app.computerChoiceElement.textContent = 'Computer chooses "' + app.textConvert[computerChoice] + '"';
+    app.computerChoiceElement.textContent = 'Computer chooses "' + app.textConvert[computerChoice-1] + '"';
     app.getResult(playerChoice, computerChoice);
   },
 
   computerChoice: function() {
-    return Math.floor(Math.random() * Math.floor(3));
+    return Math.floor(Math.random() * Math.floor(3))+1;
   },
 
   handleCpuBattle: function() {
     let cpu1Choice = app.computerChoice();
-    app.computerChoiceElement.textContent = 'Computer 1 chooses "' + app.textConvert[cpu1Choice] + '"';
+    app.computerChoiceElement.textContent = 'Computer 1 chooses "' + app.textConvert[cpu1Choice-1] + '"';
     let cpu2Choice = app.computerChoice();
-    app.computer2ChoiceElement.textContent = 'Computer 2 chooses "' + app.textConvert[cpu2Choice] + '"';
+    app.computer2ChoiceElement.textContent = 'Computer 2 chooses "' + app.textConvert[cpu2Choice-1] + '"';
     app.getResult(cpu1Choice, cpu2Choice);
   },
 
   getResult: function(player1, player2) {
-    let result = parseInt(player1 + player2);
-    let winOptions = [02, 10, 21];
+    let pp1 = app.getParity(player1);
+    let pp2 = app.getParity(player2);
     if (player1 == player2) {
       app.resultElement.textContent = 'Draw !';
       app.textResultElement.textContent = "";
     }
     else {
-      if (winOptions.includes(result)) {
+      if (pp1 == pp2 && player1 < player2 || pp1 != pp2 && player1 > player2) {
         if (app.gameType == "player") {
           app.resultElement.textContent = 'You win !';
         }
         else {
           app.resultElement.textContent = 'Computer 1 wins';
-        };
+        }
         app.score1 += 1;
       }
       else {
@@ -90,19 +90,32 @@ var app = {
           app.resultElement.textContent = 'Computer 2 wins';
         };
         app.score2 += 1;
-      };
+      }
       app.score1Element.textContent = app.score1;
       app.score2Element.textContent = app.score2;
-      if (result == 01 || result == 10) {
-        app.textResultElement.textContent = "Paper covers Rock";
-      }
-      else if (result == 02 || result == 20) {
-        app.textResultElement.textContent = "Rock crushes Scissors";
-      }
-      else {
-        app.textResultElement.textContent = "Scissors cuts Paper";
-      };
+
+      app.getExplanation(player1, player2);
     }
+  },
+
+  getParity: function(int) {
+    if (int % 2 == 0) {
+      return "even";
+    }
+    return "odd";
+  },
+
+  getExplanation: function(player1, player2) {
+    let result = parseInt(player1.toString() + player2.toString());
+    if (result == 12 || result == 21) {
+      app.textResultElement.textContent = "Paper covers Rock";
+    }
+    else if (result == 13 || result == 31) {
+      app.textResultElement.textContent = "Rock crushes Scissors";
+    }
+    else if (result == 23 || result == 32) {
+      app.textResultElement.textContent = "Scissors cuts Paper";
+    };
   },
 
   handleGameType: function(evt) {
